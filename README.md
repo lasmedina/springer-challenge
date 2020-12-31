@@ -1,10 +1,8 @@
-
-
 ### Code Overview
 
 - `loader.py`: import data from .csv and create a target variable.
 - `processor.py`: preprocess predictor variables and create new variables from existing ones. 
-- `model_builder.py`: perform grid search with stratified k fold.
+- `model_builder.py`: perform grid search with stratified k-fold.
 - `utils.py`: utility functions to run a benchmark, print results, and save/load models.
 - `main.py`: helper workflow script, which ties everything together. 
 - `tests folder`: unit tests for Loader and Processor classes.
@@ -55,10 +53,10 @@ The following columns in the original data set were not used in the modelling wo
 
 ### Methodology
 
-#### Evaluation metric
+#### Evaluation Metric
 
 The percentage of observations classified as 'true' is about 1% of the total. This makes the data set very unbalanced 
-wrt the target, thus macro-F1 score the natural choice to evaluate the models (as it will give equal 'weight' to both 
+wrt the target, thus macro-F1 score is the natural choice to evaluate the models (as it will give equal 'weight' to both 
 classes, regardless of their size).
 
 #### Model Search
@@ -70,19 +68,22 @@ highest macro-F1 score).
 
 Note that the best model is evaluated on the holdout set only after cross validation is complete.
 
+The best model and respective metrics are stored in a `.pkl`, under the `data` folder.
+
 #### Results
 
-The best model is obtained for the Multinomial Naive-Bayes classifier (with an alpha parameter value of 0.95), using 
+The best model was  obtained for the Multinomial Naive-Bayes classifier (with an alpha parameter value of 0.95), using 
 the title variable represented as a tf-idf matrix. The holdout set macro-F1 score is 0.686.
 
 To print out details of the best model built with the approach described in the previous sections, run 
 `python main.py show 'best_model_Dec-31-2020_1529.pkl'`
 
-To reproduce the entire modelling workflow, run `python main.py runall`
+To reproduce the entire modelling workflow, run `python main.py runall` (this will take a couple of minutes to run and 
+will store the results in a `.pkl` under `data`).
 
 To add more classifiers/parameters to the search, modify the `benchmark` function in `utils.py`.
 
-#### Possible Next Steps
+### Possible Next Steps
 
 - improve mapping of 'class' values to true/false.
 - add columns to data set:
