@@ -65,16 +65,21 @@ if __name__ == "__main__":
     opt = ""
     use_tfidf_on_title = True
     mdl_file = 'best_model_Dec-31-2020_1529.pkl'
-    if len(sys.argv) <= 1 or sys.argv[1] not in ('runall', 'show'):
-        raise argparse.ArgumentTypeError("Option must be 'show' or 'runall'.")
+    if len(sys.argv) <= 1 or sys.argv[1] not in ('run', 'show'):
+        raise argparse.ArgumentTypeError("Argument value must be 'show' or 'run'.")
     opt = sys.argv[1]
 
     if len(sys.argv) > 2:
-        use_tfidf_on_title = bool(sys.argv[2])
-    if len(sys.argv) > 3:
-        mdl_file = sys.argv[3]
+        if opt == "run":
+            title_rep = sys.argv[2].lower()
+            if title_rep not in ('tfidf', 'emb'):
+                raise argparse.ArgumentTypeError("Argument value must be 'tfidf' or 'emb'.")
+            if title_rep == "emb":
+                use_tfidf_on_title = False
+        else:
+            mdl_file = sys.argv[2]
 
     if opt == "show":
         summarize_best_model(mdl_file)
-    elif opt == "runall":
+    elif opt == "run":
         run_complete_workflow(use_tfidf_on_title)
